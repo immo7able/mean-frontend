@@ -52,17 +52,17 @@ export default function MyMotorcyclesPage() {
 
                             <div className="flex flex-col md:flex-row gap-6">
                                 <div className="flex-1 space-y-2 text-sm text-gray-800">
-                                    <p><strong>Описание:</strong> {motorcycle.description}</p>
                                     <p><strong>Цена:</strong> {motorcycle.price} ₸</p>
                                     <p><strong>Год выпуска:</strong> {motorcycle.year}</p>
                                     <p><strong>Объём двигателя:</strong> {motorcycle.engineVolume} см³</p>
                                     <p><strong>Пробег:</strong> {motorcycle.mileage} км</p>
                                     <p><strong>Город:</strong> {motorcycle.city}</p>
+                                    <p><strong>Телефон:</strong> {motorcycle.owner.phoneNumber}</p>
+                                    <p><strong>Описание:</strong> {motorcycle.description}</p>
                                 </div>
 
                                 {motorcycle.images?.length > 0 && (
                                     <div className="w-full md:w-1/2 flex flex-col items-center gap-4">
-                                        {/* Большое изображение */}
                                         <div className="w-full h-80 rounded-xl overflow-hidden cursor-pointer">
                                             <img
                                                 src={motorcycle.images[0]}
@@ -72,7 +72,6 @@ export default function MyMotorcyclesPage() {
                                             />
                                         </div>
 
-                                        {/* Маленькие превьюшки */}
                                         <div className="flex flex-wrap gap-2 justify-start w-full">
                                             {motorcycle.images.slice(1).map((imageUrl, index) => (
                                                 <img
