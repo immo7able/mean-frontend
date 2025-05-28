@@ -20,10 +20,6 @@ export const AuthService = {
         return api.post('/auth/login', credentials)
     },
     getProfile: async () => {
-        const token = Cookies.get('accessToken');
-        if (!token || isTokenExpired(token)) {
-            throw new Error('Токен истек');
-        }
         return api.get('/auth/profile');
     },
     logout: () => {

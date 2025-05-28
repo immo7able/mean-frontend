@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import {AuthService} from '@/services/auth'
 import {UserService} from '@/services/user'
-import {UploadButton} from "@uploadthing/react";
 import {AvatarUploadButton} from "@/components/uploadthing";
 
 export default function ProfilePage() {
@@ -85,10 +84,13 @@ export default function ProfilePage() {
 
                         <div className="space-y-2 mb-6">
                             <p>
+                                <span className="font-semibold">Login:</span> {user.username}
+                            </p>
+                            <p>
                                 <span className="font-semibold">Email:</span> {user.email}
                             </p>
                             <p>
-                                <span className="font-semibold">Имя:</span> {user.username}
+                                <span className="font-semibold">Phone:</span> {user.phoneNumber}
                             </p>
                         </div>
                     </>

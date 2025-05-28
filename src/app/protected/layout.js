@@ -5,7 +5,6 @@ import Cookies from 'js-cookie'
 
 export default function ProtectedLayout({children}) {
     const router = useRouter()
-    // Проверка авторизации при монтировании
     useEffect(() => {
         const checkAuth = () => {
             const accessToken = Cookies.get('accessToken')

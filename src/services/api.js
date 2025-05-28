@@ -32,13 +32,10 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config
 
-        const isAuthRoute = originalRequest.url.includes('/auth/login') ||
-            originalRequest.url.includes('/auth/register')
-
         if (error.response?.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
-                    failedQueue.push({ resolve, reject })
+                    failedQueue.push({resolve, reject})
                 })
                     .then(() => api(originalRequest))
                     .catch((err) => Promise.reject(err))
@@ -49,7 +46,7 @@ api.interceptors.response.use(
 
             try {
                 const refreshToken = Cookies.get('refreshToken')
-                const { data } = await axios.post(`${API_URL}/auth/refresh-token`, { refreshToken })
+                const {data} = await axios.post(`${API_URL}/auth/refresh-token`, {refreshToken})
 
                 Cookies.set('accessToken', data.accessToken)
                 Cookies.set('refreshToken', data.refreshToken)
@@ -62,10 +59,6 @@ api.interceptors.response.use(
 
                 Cookies.remove('accessToken')
                 Cookies.remove('refreshToken')
-
-                if (!isAuthRoute) {
-                    window.location.href = 'login'
-                }
 
                 return Promise.reject(refreshError)
             } finally {

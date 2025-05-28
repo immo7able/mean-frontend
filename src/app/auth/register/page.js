@@ -5,14 +5,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { handleApiError } from "@/services/errorHandler"
 import { useRouter } from 'next/navigation'
-import { AuthService } from "@/services/auth"
-import { useState } from "react"
-import { Notification } from "@/components/Notification" // не забудь указать правильный путь
+import {AuthService, isTokenExpired} from "@/services/auth"
+import {useEffect, useState} from "react"
+import { Notification } from "@/components/Notification"
+import Cookies from "js-cookie";
 
 const schema = z.object({
     email: z.string().email('Некорректный email'),
     password: z.string().min(6, 'Пароль должен быть не менее 6 символов'),
     username: z.string().min(3, 'Имя пользователя слишком короткое'),
+    phoneNumber: z.string().min(10, 'Введите корректный номер')
 })
 
 export default function RegisterPage() {
@@ -30,7 +32,10 @@ export default function RegisterPage() {
     } = useForm({
         resolver: zodResolver(schema),
     })
-
+    useEffect(() => {
+        const token = Cookies.get('accessToken')
+        if (token && !isTokenExpired(token)) router.push('/protected/profile')
+    }, [])
     const onSubmit = async (data) => {
         try {
             await AuthService.register(data)
@@ -77,6 +82,17 @@ export default function RegisterPage() {
                     />
                     {errors.username && (
                         <span className="text-red-500 text-sm">{errors.username.message}</span>
+                    )}
+                </div>
+
+                <div>
+                    <input
+                        {...register('phoneNumber')}
+                        placeholder='Номер телефона'
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    {errors.phoneNumber && (
+                        <span className="text-red-500 text-sm">{errors.phoneNumber.message}</span>
                     )}
                 </div>
 
