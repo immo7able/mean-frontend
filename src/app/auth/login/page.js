@@ -12,6 +12,7 @@ export default function LoginPage() {
     })
     const [error, setError] = useState('')
     useEffect(() => {
+        console.log('ENV:', process.env.NEXT_PUBLIC_BACKEND_URL)
         const token = Cookies.get('accessToken')
         if (token && !isTokenExpired(token)) router.push('/protected/profile')
     }, [])
